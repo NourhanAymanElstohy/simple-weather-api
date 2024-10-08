@@ -9,6 +9,7 @@ use Tests\TestCase;
 
 class AuthTest extends TestCase
 {
+    use RefreshDatabase;
 
     public function test_user_can_register()
     {
