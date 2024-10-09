@@ -10,4 +10,6 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:api')->group(function () {
     Route::get('/weather', [WeatherController::class, 'getWeather']);
+
+    Route::post('/logout', [AuthController::class, 'logout']);
 });
