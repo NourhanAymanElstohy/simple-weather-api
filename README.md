@@ -1,66 +1,198 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Weather Forecasting System API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This is a simple API built with Laravel to retrieve weather forecasts for specified cities. The API uses JWT-based authentication, integrates with a mocked weather service (using the service pattern), and incorporates caching for optimized performance. This project was built with **Test-Driven Development (TDD)**, ensuring all core functionalities are tested and reliable.
 
-## About Laravel
+## Table of Contents
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+-   [Features](#features)
+-   [Technologies](#technologies)
+-   [Requirements](#requirements)
+-   [Installation](#installation)
+-   [API Endpoints](#api-endpoints)
+-   [Testing](#testing)
+-   [Caching](#caching)
+-   [License](#license)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+-   JWT-based user authentication
+-   Weather data retrieval with caching for improved performance
+-   Mocked external weather service using a service layer pattern
+-   Fully tested with feature and unit tests to ensure functionality
 
-## Learning Laravel
+## Technologies
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+-   **Laravel 11**
+-   **SQLite (for testing)**
+-   **JWT (JSON Web Token) Authentication**
+-   **Redis** for caching
+-   **PHPUnit** for testing
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Requirements
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+-   **PHP 8.2** or higher
+-   **Composer** for PHP dependencies
+-   **SQLite** for testing (optional, but recommended)
+-   **Redis** for testing
 
-## Laravel Sponsors
+## Installation
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+1. **Clone the repository:**
 
-### Premium Partners
+    ```bash
+    git clone https://github.com/NourhanAymanElstohy/simple-weather-api.git
+    cd simple-weather-api
+    ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+2. Install the project dependencies using Composer:
 
-## Contributing
+    ```bash
+    composer install
+    ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+3. Create a copy of the `.env.example` file and rename it to `.env`. Update the necessary configuration values such as database credentials.
 
-## Code of Conduct
+    ```bash
+    cp .env.example .env
+    ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+4. Generate an application key:
 
-## Security Vulnerabilities
+    ```bash
+    php artisan key:generate
+    ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+5. Generate an JWT Secret key:
+
+    ```bash
+    php artisan jwt:secret
+    ```
+
+6. Run the database migrations (**Set the database credentials in .env before migrating**):
+
+    ```bash
+    php artisan migrate
+    ```
+
+7. Start the development server:
+
+    ```bash
+    php artisan serve
+    ```
+
+8. Access the application in your web browser at `http://localhost:8000`.
+
+## API Endpoints
+
+The following API endpoints are available:
+
+1.  **Register a New User**
+    Endpoint: `POST /api/register`
+
+-   Request:
+
+```bash
+{
+    "name": "John Doe",
+    "email": "johndoe@example.com",
+    "password": "secret",
+}
+```
+
+-   Response:
+
+```bash
+{
+    "message": "User registered successfully",
+    "token": "jwt_token"
+}
+```
+
+2.  **User Login**
+    Endpoint: `POST /api/login`
+
+-   Request:
+
+```bash
+{
+    "email": "johndoe@example.com",
+    "password": "secret",
+}
+```
+
+-   Response:
+
+```bash
+{
+    "token": "jwt_token"
+}
+```
+
+3.  **Get Weather Data (Authenticated)**
+    Endpoint: `POST /api/weather?city=city_name`
+
+-   Request:
+
+    -   Header: `Authorization: Bearer jwt_token`
+    -   URL Parameter: `city` (e.g., `/api/weather?city=Cairo`)
+
+-   Response:
+
+```bash
+{
+    "city": "Cairo",
+    "temperature": "30°C",
+    "humidity": "50%",
+    "conditions": "Clear sky"
+}
+```
+
+## Testing
+
+This project follows **Test-Driven Development (TDD)** principles. Both **unit tests** and **feature tests** are provided.
+
+-   Unit Tests:
+
+    -   Located in `tests/Unit/WeatherServiceTest.php`
+    -   Test the `WeatherService` class to ensure weather data is returned and caching works correctly.
+
+-   Feature Tests:
+
+    -   Located in `tests/Feature/AuthTest.php` and `tests/Feature/WeatherTest.php`
+    -   Test the API endpoints for registration, login, and weather retrieval.
+
+### Testing Configuration
+
+To use an in-memory SQLite database during testing, update the `.env.testing` file (if not) with:
+
+    DB_CONNECTION=sqlite
+    DB_DATABASE=:memory:
+
+### Running the Tests
+
+To run all tests:
+
+```bash
+php artisan test
+```
+
+### About TDD
+
+This API was developed using **Test-Driven Development (TDD)**:
+
+-   Tests were written before the actual implementation to validate the expected behavior.
+-   The process ensured that each feature met the requirements and that core functionality was validated before proceeding.
+-   Both **unit tests** and **feature tests** were created to cover business logic and API functionality.
+
+## API Documentation
+
+-   You can access the Postman collection for the API [Weather-api](https://drive.google.com/file/d/1iMULw6TW6fcuyPE-HJPhIN1HFVC9sXp4/view?usp=drive_link).
+-   And Environment for the Weather API [Weather-api-env](https://drive.google.com/file/d/1tjPl0-YtVOkQLjD03guP4sfV18IzZA8P/view?usp=sharing)
+
+## Caching
+
+Caching is implemented in the `WeatherService` class using Laravel's Cache facade to store weather data for 3600 minutes. This improves the performance of subsequent requests for the same city.
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Weather is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT). Feel free to use, modify, and distribute the code as per the terms of the license.
