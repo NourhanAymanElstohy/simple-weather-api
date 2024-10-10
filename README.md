@@ -11,6 +11,7 @@ This is a simple API built with Laravel to retrieve weather forecasts for specif
 -   [API Endpoints](#api-endpoints)
 -   [Testing](#testing)
 -   [Caching](#caching)
+-   [Security](#security)
 -   [License](#license)
 
 ## Features
@@ -163,7 +164,7 @@ This project follows **Test-Driven Development (TDD)** principles. Both **unit t
 
 ### Testing Configuration
 
--   Create a copy of the `.env` file and rename it to `.env.testing`. Update the necessary configuration values such as database credentials.
+-   Create a copy of the `.env` file and rename it to `.env.testing`.
 
     ```bash
     cp .env .env.testing
@@ -198,6 +199,22 @@ This API was developed using **Test-Driven Development (TDD)**:
 ## Caching
 
 Caching is implemented in the `WeatherService` class using Laravel's Cache facade to store weather data for 3600 minutes. This improves the performance of subsequent requests for the same city.
+
+## Security
+
+-   **JWT Authentication**: Use **JSON Web Tokens** for secure, stateless user authentication.
+
+-   **Throttle Middleware**: Limit request rates to prevent brute force and DoS attacks.
+
+-   **Retry Mechanism**: Allow up to 3 retries with intervals to handle temporary API errors.
+
+-   **Exception Handling**: Catch and log errors to prevent information leaks and ensure smooth error handling.
+
+-   **Input Validation**: Validate and sanitize user inputs to prevent SQL Injection, XSS, and other attacks.
+
+-   **Secure Environment Configurations**: Store sensitive data (e.g., API keys) in environment files, not in code.
+
+-   **Logging and Monitoring with Laravel Telescope**: Use **Laravel Telescope** for real-time monitoring of API requests, exceptions, and more. `http://localhost:8000/telescope`
 
 ## License
 
