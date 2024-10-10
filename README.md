@@ -163,7 +163,13 @@ This project follows **Test-Driven Development (TDD)** principles. Both **unit t
 
 ### Testing Configuration
 
-To use an in-memory SQLite database during testing, update the `.env.testing` file (if not) with:
+-   Create a copy of the `.env` file and rename it to `.env.testing`. Update the necessary configuration values such as database credentials.
+
+    ```bash
+    cp .env .env.testing
+    ```
+
+-   To use an in-memory SQLite database during testing, update the `.env.testing` file (if not) with:
 
     DB_CONNECTION=sqlite
     DB_DATABASE=:memory:
