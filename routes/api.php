@@ -4,12 +4,21 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\WeatherController;
 use Illuminate\Support\Facades\Route;
 
+// Define routes and make rate limiting using the throttle middleware
+Route::middleware(['throttle:60,1'])->group(function () {
+    // Register route
+    Route::post('/register', [AuthController::class, 'register']);
 
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
+    // Login route
+    Route::post('/login', [AuthController::class, 'login']);
 
-Route::middleware('auth:api')->group(function () {
-    Route::get('/weather', [WeatherController::class, 'getWeather']);
+    // Routes that require authentication
+    Route::middleware(['auth:api'])->group(function () {
+        // Get weather route
+        Route::get('/weather', [WeatherController::class, 'getWeather']);
 
-    Route::post('/logout', [AuthController::class, 'logout']);
+        // Logout route
+        Route::post('/logout', [AuthController::class, 'logout']);
+    });
 });
+
