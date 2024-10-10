@@ -31,7 +31,7 @@ class WeatherService implements WeatherServiceInterface
 
             return $mockData[$city] ?? ['temperature' => 'Unknown', 'humidity' => 'Unknown', 'conditions' => 'Unknown'];
         });
-        
+
         return $weatherData;
     }
 }
